@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "bun:test";
+import { describe, it, expect, beforeEach } from "vitest";
 import { ToolService } from "../src/tool-service";
 import type { ToolDefinition, ToolCall } from "../src/types";
 

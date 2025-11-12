@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "bun:test";
+import { describe, it, expect, beforeEach } from "vitest";
 import { RateLimitMonitor } from "../src/rate-limit-monitor";
 import { OpenAIService } from "../src/openai-service";
 

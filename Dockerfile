@@ -1,19 +1,19 @@
 # Build stage - install dependencies and prepare source
-FROM oven/bun:1.2.14-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json bun.lock* ./
+COPY package.json package-lock.json ./
 
 # Install all dependencies
-RUN bun install --frozen-lockfile
+RUN npm ci
 
 # Copy source code
 COPY . ./
 
-# Production stage - minimal Bun runtime
-FROM oven/bun:1.2.14-alpine AS production
+# Production stage - minimal Node runtime
+FROM node:18-alpine AS production
 
 # Install essential runtime dependencies
 RUN apk add --no-cache \
@@ -21,28 +21,27 @@ RUN apk add --no-cache \
     curl \
     && rm -rf /var/cache/apk/*
 
-# The bun user already exists in the base image, so we'll use it
+# The node user already exists in the base image, so we'll use it
 
 # Set working directory
 WORKDIR /app
 
 # Copy package files
-COPY package.json bun.lock* ./
+COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN bun install --frozen-lockfile --production && \
-    bun pm cache rm
+RUN npm ci --only=production && \
+    npm cache clean --force
 
 # Copy source code from build stage
-COPY --from=build --chown=bun:bun /app/src ./src
-COPY --from=build --chown=bun:bun /app/tsconfig.json ./tsconfig.json
-COPY --from=build --chown=bun:bun /app/bunfig.toml ./bunfig.toml
+COPY --from=build --chown=node:node /app/src ./src
+COPY --from=build --chown=node:node /app/tsconfig.json ./tsconfig.json
 
-# Change ownership of the app directory to the bun user
-RUN chown -R bun:bun /app
+# Change ownership of the app directory to the node user
+RUN chown -R node:node /app
 
 # Switch to non-root user
-USER bun
+USER node
 
 # Expose the port the app runs on
 EXPOSE 3000
@@ -60,5 +59,5 @@ LABEL description="OpenAI-compatible HTTP server using Duck.ai backend"
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
-# Start the application with Bun runtime
-CMD ["bun", "run", "src/server.ts"] 
+# Start the application with Node runtime
+CMD ["npm", "start"] 

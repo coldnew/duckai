@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from "bun:test";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import type { Server } from "bun";
 import { OpenAIService } from "../src/openai-service";
 

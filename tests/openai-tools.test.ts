@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "bun:test";
+import { describe, it, expect, beforeEach } from "vitest";
 import { OpenAIService } from "../src/openai-service";
 import type {
   ChatCompletionRequest,
