@@ -30,12 +30,12 @@ cd duckai
 
 2. Install dependencies:
 ```bash
-bun install
+npm install
 ```
 
 3. Start the server:
 ```bash
-bun run dev
+npm run dev
 ```
 
 ### Basic Usage Example
@@ -93,7 +93,7 @@ DuckAI OpenAI Server bridges the gap between DuckDuckGo's free AI chat service a
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) runtime (recommended) or Node.js 18+
+- Node.js 18+ with npm
 
 ### Installation
 
@@ -105,12 +105,12 @@ cd duckai
 
 2. Install dependencies:
 ```bash
-bun install
+npm install
 ```
 
 3. Start the server:
 ```bash
-bun run dev
+npm run dev
 ```
 
 The server will start on `http://localhost:3000` by default.
